@@ -76,54 +76,52 @@
             transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-            .chat-box.open {
+        .chat-box.open {
             transform: translateY(-10px);
             opacity: 1;
             pointer-events: auto;
             }
 
-            /* Header */
-            .chat-header {
+        /* Header */
+        .chat-header {
             background: linear-gradient(135deg, #a050ff, #ff54a8);
             padding: 12px;
             color: white;
             font-weight: bold;
             text-align: center;
-            }
+        }
 
-            /* Content */
-            .chat-content {
+        /* Content */
+        .chat-content {
             flex: 1;
             padding: 12px;
             color: white;
             overflow-y: auto;
             font-size: 14px;
-            }
+        }
 
-            /* Input */
-            .chat-input {
+        /* Input */
+        .chat-input {
             border-top: 1px solid #222a55;
             display: flex;
-            }
+        }
 
-            .chat-input input {
+        .chat-input input {
             flex: 1;
             border: none;
             padding: 12px;
             background: #11163a;
             color: white;
             outline: none;
-            }
+        }
 
-            .chat-input button {
+        .chat-input button {
             background: #4aa3ff;
             border: none;
             padding: 0 22px;
             color: white;
             cursor: pointer;
-            }
-
-
+        }
 
         /* Custom Cursor */
         .cursor {
@@ -167,7 +165,7 @@
 
         nav.scrolled {
             padding: 1rem 5%;
-            background: rgba(15, 23, 42, 0.95);
+            background: rgba(15, 23, 42, 0.3);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
@@ -207,6 +205,102 @@
 
         .nav-links a:hover::after {
             width: 100%;
+        }
+
+        /* ======= FLOATING BURGER ======= */
+        .burger {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(12px);
+            border-radius: 14px;
+            cursor: pointer;
+
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            gap: 6px;
+
+            position: fixed;
+            top: 22px;
+            left: 22px;
+            z-index: 2000;
+
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35),
+                        0 0 20px rgba(120, 80, 255, 0.25);
+            transition: 0.3s ease;
+        }
+
+        /* Lines */
+        .burger span {
+            width: 28px;
+            height: 3px;
+            background: white;
+            border-radius: 10px;
+            transition: 0.4s;
+        }
+
+        /* Hover aesthetic */
+        .burger:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45),
+                        0 0 22px rgba(160, 80, 255, 0.45);
+            transform: scale(1.05);
+        }
+
+        /* ANIMASI BURGER → X */
+        .burger.active span:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+
+        .burger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active span:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
+        }
+
+        /* MOBILE MENU */
+        .nav-links.mobile {
+            position: fixed;
+            top: 90px;
+            left: 20px;
+            width: 230px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(12px);
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+
+            /* --- STATE HIDDEN --- */
+            opacity: 0;
+            transform: translateY(-12px);
+            pointer-events: none;
+
+            transition: all 0.35s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* STATE SHOW */
+        .nav-links.mobile.show {
+            opacity: 1;
+            transform: translateY(0px);
+            pointer-events: auto;
+        }
+
+        .nav-links.mobile a {
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        }
+
+        .show {
+            display: flex !important;
         }
 
         /* Hero Section */
@@ -712,10 +806,30 @@
                 flex-direction: column;
             }
 
+            /*
             .nav-links {
                 gap: 1rem;
                 font-size: 0.9rem;
             }
+            
+
+            GAPP
+            .nav-links {
+                display: none;
+            }
+
+            .burger {
+                display: flex;
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                z-index: 999;
+            }
+            */
+            .logo { display: none;}
+            .nav-links { display: flex;
+            opacity: 0; }
+            .burger { display: flex; }
 
             .section-title {
                 font-size: 2rem;
@@ -775,12 +889,19 @@
     <!-- Navigation -->
     <nav id="navbar">
         <div class="logo">Kampus Mewah</div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="navLinks">
             <li><a href="#home">Beranda</a></li>
             <li><a href="#services">Layanan</a></li>
             <li><a href="#stats">Statistik</a></li>
             <li><a href="https://wa.me/6287778443280" target="_blank">Kontak</a></li>
         </ul>
+        
+        <!-- Floating Burger -->
+        <div class="burger" id="burgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
 
     <!-- Hero Section -->
@@ -1030,6 +1151,18 @@
                 cursorFollower.style.top = e.clientY + 'px';
             }, 100);
         });
+
+        // Nav Burger
+        const burger = document.getElementById("burgerBtn");
+        const navLinks = document.getElementById("navLinks");
+
+        burger.addEventListener("click", () => {
+            burger.classList.toggle("active");
+            navLinks.classList.toggle("mobile");
+            navLinks.classList.toggle("show");
+        });
+
+
 
         // Flip card functionality
         document.querySelectorAll('.service-card').forEach(card => {
